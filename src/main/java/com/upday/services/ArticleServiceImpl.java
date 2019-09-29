@@ -38,9 +38,9 @@ public class ArticleServiceImpl implements ArticleService {
 		article.setPublishedDate(new Date());
 		return articleRepository.save(article);
 	}
-	
+
 	@Override
-	public Article updateArticle(Article storedArticle , Article newArticle) {
+	public Article updateArticle(Article storedArticle, Article newArticle) {
 		logger.debug("updateArticle called");
 		storedArticle.setUpdatedDate(new Date());
 		storedArticle.setArticleHeader(newArticle.getArticleHeader());
@@ -50,11 +50,27 @@ public class ArticleServiceImpl implements ArticleService {
 		storedArticle.setAuthorName(newArticle.getAuthorName());
 		return articleRepository.save(storedArticle);
 	}
-	
 
 	@Override
 	public void deleteArticle(Integer id) {
 		logger.debug("deleteArticle called");
+
 		articleRepository.deleteById(id);
 	}
+
+	@Override
+	public Iterable<Article> getArticleByAuthor(String authorName) {
+		return articleRepository.findByAuthorName(authorName);
+	}
+
+	@Override
+	public Iterable<Article> getArticleByDates(Date fromDate, Date toDate) {
+		return articleRepository.findByDates(fromDate, toDate);
+	}
+
+	@Override
+	public Iterable<Article> getArticleByKeywords(String keyword) {
+		return articleRepository.findByKeywords(keyword);
+	}
+
 }
