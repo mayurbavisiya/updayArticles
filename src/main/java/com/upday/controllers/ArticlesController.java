@@ -8,6 +8,8 @@ import io.swagger.annotations.ApiResponses;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -27,7 +29,6 @@ public class ArticlesController {
 
 	private ArticleService articleService;
 
-
 	@Autowired
 	public void setArticleService(ArticleService articleService) {
 		this.articleService = articleService;
@@ -45,37 +46,59 @@ public class ArticlesController {
 		return articleList;
 	}
 
-	@ApiOperation(value = "Search a article with an ID", response = Article.class)
-	@RequestMapping(value = "/show/{id}", method = RequestMethod.GET, produces = "application/json")
-	public Article showArticle(@PathVariable Integer id, Model model) {
-		Article article = articleService.getArticleById(id);
-		return article;
-	}
-
 	@ApiOperation(value = "Add a Article")
 	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json")
-	public ResponseEntity saveArticle(@RequestBody Article article) {
+	public ResponseEntity<String> saveArticle(@RequestBody Article article) {
 		articleService.saveArticle(article);
-		return new ResponseEntity(HttpStatus.OK);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Custom-Header", "Article saved successfully");
+		return new ResponseEntity<>(null, headers, HttpStatus.OK);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@ApiOperation(value = "Update a article")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT, produces = "application/json")
 	public ResponseEntity updateArticle(@PathVariable Integer id,
 			@RequestBody Article article) {
 		Article storedArticle = articleService.getArticleById(id);
-		articleService.updateArticle(storedArticle , article);
-		return new ResponseEntity("Article updated successfully", HttpStatus.OK);
+		articleService.updateArticle(storedArticle, article);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Custom-Header", "Article updated successfully");
+		return new ResponseEntity(null,headers, HttpStatus.OK);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@ApiOperation(value = "Delete a Article")
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = "application/json")
 	public ResponseEntity delete(@PathVariable Integer id) {
 		articleService.deleteArticle(id);
-		return new ResponseEntity("Article deleted successfully", HttpStatus.OK);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Custom-Header", "Article deleted successfully");
+		return new ResponseEntity(null,headers, HttpStatus.OK);
 
 	}
 
+	@ApiOperation(value = "Search a article with an Author Name", response = Article.class)
+	@RequestMapping(value = "/showArticleByAuthor/{authorName}", method = RequestMethod.GET, produces = "application/json")
+	public Iterable<Article> getArticleByAuthor(
+			@PathVariable String authorName, Model model) {		
+		return articleService.getArticleByAuthor(authorName);
+	}
+
+	@ApiOperation(value = "Search a article by dates", response = Article.class)
+	@RequestMapping(value = "/showArticleByDate/{fromDate}/{toDate}", method = RequestMethod.GET, produces = "application/json")
+	public Iterable<Article> getArticlesByDates(
+			@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fromDate,
+			@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date toDate,
+			Model model) {
+		return articleService.getArticleByDates(fromDate, toDate);
+	}
+
+	@ApiOperation(value = "Search a article by keywords", response = Article.class)
+	@RequestMapping(value = "/showArticleBykeyWord/{keyWord}", method = RequestMethod.GET, produces = "application/json")
+	public Iterable<Article> getArticlesBykeyWords(
+			@PathVariable String keyWord, Model model) {
+		return articleService.getArticleByKeywords(keyWord);
+	}
+
 }
-
-

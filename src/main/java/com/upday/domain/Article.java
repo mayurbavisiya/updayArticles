@@ -41,7 +41,7 @@ public class Article {
 	private String articleText;
 
 	@Column(name = "PUBLISHEDDATE")
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	@JsonFormat(pattern = "dd-MM-yyyy", timezone = "Abu Dhabi/Muscut")
 	@ApiModelProperty(hidden = true)
 	private Date publishedDate;

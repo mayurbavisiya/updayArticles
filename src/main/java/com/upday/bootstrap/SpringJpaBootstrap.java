@@ -1,5 +1,7 @@
 package com.upday.bootstrap;
 
+import java.util.Date;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,20 +32,15 @@ public class SpringJpaBootstrap implements
 
 	private void loadArticles() {
 		Article article = new Article();
-		// Article mug = new Article();
-		// mug.setDescription("Spring Framework Guru Mug");
-		// mug.setImageUrl("https://springframework.guru/wp-content/uploads/2015/04/spring_framework_guru_coffee_mug-r11e7694903c348e1a667dfd2f1474d95_x7j54_8byvr_512.jpg");
-		// mug.setProductId("168639393495335947");
-		// mug.setPrice(new BigDecimal("11.95"));
-		// articleRepository.save(mug);
+		article.setPublishedDate(new Date());
+		article.setArticleHeader("Spring Boot Rest API");
+		article.setArticleShortDesc("In this article we will discus about rest api.");
+		article.setArticleText("A RESTful API is an application program interface (API) that uses HTTP requests to GET, PUT, POST and DELETE data. ... The REST used by browsers can be thought of as the language of the internet. With cloud use on the rise, APIs are emerging to expose web services.");
+		article.setAuthorName("Mayur");
+		article.setKeyWords("Spring Boot,Rest,API,Java");
+		articleRepository.save(article);
 
-		
-//		article.setPublishedDate(new Date());
-//		article.setAuthorName("Mayur");
-//		article.setArticleShortDesc("This is my First Article.This article is about Sprging boot API.");
-//		articleRepository.save(article);
-
-//		log.info("Saved Shirt - id: " + article.getId());
+		log.info("Saved Article - id: " + article.getId());
 
 	}
 
