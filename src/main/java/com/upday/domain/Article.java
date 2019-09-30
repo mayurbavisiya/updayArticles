@@ -28,16 +28,16 @@ public class Article {
 	private Integer id;
 
 	@Column(name = "ARTICLEHEADER")
-	@ApiModelProperty(notes = "The articles in details", required = true)
+	@ApiModelProperty(notes = "Header of the Article", required = true)
 	private String articleHeader;
 
 	@Column(name = "ARTICLESHORTDESC")
-	@ApiModelProperty(notes = "The articles in details", required = true)
+	@ApiModelProperty(notes = "Short description of the Article", required = true)
 	private String articleShortDesc;
 
 	@Column(name = "ARTICLETEXT")
 	@Lob
-	@ApiModelProperty(notes = "The articles in details", required = true)
+	@ApiModelProperty(notes = "Text of the Article", required = true)
 	private String articleText;
 
 	@Column(name = "PUBLISHEDDATE")
@@ -53,7 +53,7 @@ public class Article {
 	private Date updatedDate;
 
 	@Column(name = "AUTHORNAME")
-	@ApiModelProperty(notes = "The name of the author of the article", required = true)
+	@ApiModelProperty(notes = "AuthorName of the article", required = true)
 	private String authorName;
 
 	@Column(name = "KEYWORDS")
