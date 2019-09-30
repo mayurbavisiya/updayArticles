@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.upday.domain.Article;
+import com.upday.exceptionhandler.RecordNotFoundException;
 import com.upday.services.ArticleService;
 
 @RestController
@@ -46,7 +47,7 @@ public class ArticlesController {
 		return articleList;
 	}
 
-	@ApiOperation(value = "Add a Article")
+	@ApiOperation(value = "Add an Article")
 	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json")
 	public ResponseEntity<String> saveArticle(@RequestBody Article article) {
 		articleService.saveArticle(article);
@@ -56,49 +57,54 @@ public class ArticlesController {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@ApiOperation(value = "Update a article")
+	@ApiOperation(value = "Update an article")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT, produces = "application/json")
 	public ResponseEntity updateArticle(@PathVariable Integer id,
 			@RequestBody Article article) {
 		Article storedArticle = articleService.getArticleById(id);
-		articleService.updateArticle(storedArticle, article);
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Custom-Header", "Article updated successfully");
-		return new ResponseEntity(null,headers, HttpStatus.OK);
+		if(storedArticle != null){
+			articleService.updateArticle(storedArticle, article);
+			HttpHeaders headers = new HttpHeaders();
+			headers.add("Custom-Header", "Article updated successfully");
+			return new ResponseEntity(null, headers, HttpStatus.OK);
+		}else{
+			throw new RecordNotFoundException("Record not found");
+		}
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@ApiOperation(value = "Delete a Article")
+	@ApiOperation(value = "Delete an Article")
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = "application/json")
 	public ResponseEntity delete(@PathVariable Integer id) {
 		articleService.deleteArticle(id);
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Custom-Header", "Article deleted successfully");
-		return new ResponseEntity(null,headers, HttpStatus.OK);
+		return new ResponseEntity(null, headers, HttpStatus.OK);
 
 	}
 
-	@ApiOperation(value = "Search a article with an Author Name", response = Article.class)
+	@ApiOperation(value = "Search an article with an Author Name", response = Article.class)
 	@RequestMapping(value = "/showArticleByAuthor/{authorName}", method = RequestMethod.GET, produces = "application/json")
 	public Iterable<Article> getArticleByAuthor(
-			@PathVariable String authorName, Model model) {		
+			@PathVariable String authorName, Model model) {
 		return articleService.getArticleByAuthor(authorName);
 	}
 
-	@ApiOperation(value = "Search a article by dates", response = Article.class)
+	@ApiOperation(value = "Search an article by dates", response = Article.class)
 	@RequestMapping(value = "/showArticleByDate/{fromDate}/{toDate}", method = RequestMethod.GET, produces = "application/json")
 	public Iterable<Article> getArticlesByDates(
 			@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fromDate,
 			@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date toDate,
-			Model model) {
-		return articleService.getArticleByDates(fromDate, toDate);
+			Model model) throws Exception {		
+			return articleService.getArticleByDates(fromDate, toDate);			
+		
 	}
 
-	@ApiOperation(value = "Search a article by keywords", response = Article.class)
+	@ApiOperation(value = "Search an article by keywords", response = Article.class)
 	@RequestMapping(value = "/showArticleBykeyWord/{keyWord}", method = RequestMethod.GET, produces = "application/json")
 	public Iterable<Article> getArticlesBykeyWords(
 			@PathVariable String keyWord, Model model) {
 		return articleService.getArticleByKeywords(keyWord);
 	}
-
+	
 }

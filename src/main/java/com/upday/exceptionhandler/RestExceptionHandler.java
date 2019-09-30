@@ -26,8 +26,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		exceptionResponse.setDetails(new String[] { ex.getLocalizedMessage() });
 		exceptionResponse.setErrorMessage("Internal Server Error");
 
-		return new ResponseEntity(exceptionResponse,
-				HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity(exceptionResponse,HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@Override
