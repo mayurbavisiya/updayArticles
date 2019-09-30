@@ -26,7 +26,7 @@ com.h2database (To store data locally)
 Note:
 
 API : /articles/showArticleByDate/{fromDate}/{toDate}
-Need to use date format yyyy-MM-dd (i.e 2019-09-01)
+Need to use date format yyyy-MM-dd (i.e 2019-09-01) rest of the format will be consider as invalid and return 400(Bad request)
 
 CRUD operation is carrying custom header with message in case of successfull operation. This code is there to simplify future scenario,In case of need to pass some information in header.
 
