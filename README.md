@@ -20,8 +20,6 @@ com.h2database (To store data locally)
 	
 	Run UpdayApplication.java file.
 	
-5) This application is deployed on Heroku cloud.In case if you do not wish to set up, You can directly access app from http:// 
- 
 
 Note:
 
