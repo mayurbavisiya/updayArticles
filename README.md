@@ -14,12 +14,13 @@ com.h2database (To store data locally)
 
 4) Steps to run
 
-	Checkout from https://github.com/mayurbavisiya/updayArticles.git
+	Checkout project from https://github.com/mayurbavisiya/updayArticles.git
 	
 	Import in relavant IDE
 	
 	Run UpdayApplication.java file.
 	
+5)  http://localhost:6080/swagger-ui.html#/articles-controller/listUsingGET   This Api will display default articles.	
 
 Note:
 
