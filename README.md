@@ -15,7 +15,9 @@ com.h2database (To store data locally)
 4) Steps to run
 
 	Checkout from https://github.com/mayurbavisiya/updayArticles.git
+	
 	Import in relavant IDE
+	
 	Run UpdayApplication.java file.
 	
 5) This application is deployed on Heroku cloud.In case if you do not wish to set up, You can directly access app from http:// 
